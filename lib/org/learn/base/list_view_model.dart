@@ -32,7 +32,7 @@ abstract class ListViewModel<T> extends ViewModel {
 
   void onComplete() {}
 
-  refresh({bool isRefresh = false}) async {
+  loading({bool isRefresh = false}) async {
     if (isRefresh) {
       _currentPage = _startPage;
     }

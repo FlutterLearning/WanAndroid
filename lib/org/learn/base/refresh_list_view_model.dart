@@ -34,11 +34,11 @@ abstract class RefreshListViewModel<T> extends ListViewModel<T>{
   set eachListSize(int size) => _eachListSize = size;
 
   @override
-  refresh({bool isRefresh = false}) {
+  loading({bool isRefresh = false}) {
     if(isRefresh && _enableRefresh){
       _enableRefreshState = true;
     }
-    super.refresh(isRefresh: isRefresh);
+    super.loading(isRefresh: isRefresh);
   }
 
   @override

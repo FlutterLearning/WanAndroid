@@ -1,29 +1,23 @@
 class BaseRspData<T> {
-  static const int SUCCESS = 1;
+  static const int SUCCESS = 0;
 
-  int code;
-  String msg;
-  int total;
+  int errorCode;
+  String errorMsg;
   dynamic data;
-  int currentTime;
 
-  BaseRspData({this.code, this.msg, this.total, this.data, this.currentTime});
+  BaseRspData({this.errorCode, this.errorMsg, this.data});
 
   BaseRspData.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    msg = json['msg'];
-    total = json['total'];
+    errorCode = json['errorCode'];
+    errorMsg = json['errorMsg'];
     data = json['data'];
-    currentTime = json['currentTime'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['msg'] = this.msg;
-    data['total'] = this.total;
+    data['errorCode'] = this.errorCode;
+    data['errorMsg'] = this.errorMsg;
     data['data'] = this.data;
-    data['currentTime'] = this.currentTime;
     return data;
   }
 }

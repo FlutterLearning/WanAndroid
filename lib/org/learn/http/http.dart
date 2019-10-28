@@ -15,7 +15,7 @@ class ApiInterceptor extends InterceptorsWrapper {
   @override
   onResponse(Response response) {
     BaseRspData respData = BaseRspData.fromJson(response.data);
-    if (respData.code == BaseRspData.SUCCESS) {
+    if (respData.errorCode == BaseRspData.SUCCESS) {
       response.data = respData.data;
       return HttpRequest.dio().resolve(response);
     } else {
@@ -31,9 +31,9 @@ class HttpRequest {
     if (mDio == null) {
       String baseUrl;
       if (isRelease) {
-        baseUrl = 'xxx';
+        baseUrl = 'https://www.wanandroid.com/';
       } else {
-        baseUrl = 'xxx';
+        baseUrl = 'https://www.wanandroid.com/';
       }
       mDio = Dio(BaseOptions(baseUrl: baseUrl, connectTimeout: 30000));
       if (!isRelease) {
