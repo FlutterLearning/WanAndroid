@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/org/learn/ui/home_page.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class MainState extends State<StatefulWidget> {
         onPageChanged: _pageChange,
         controller: _pageController,
         itemBuilder: (BuildContext context, int index) {
-          return index == 0 ? new Text("我是第一页") : new Text("我是第二页");
+          return index == 0 ? HomePage() : new Text("我是第二页");
         },
         itemCount: 2,
       ),

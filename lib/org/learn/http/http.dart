@@ -5,6 +5,7 @@ import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
 import 'package:flutter_app/org/learn/base/base_response.dart';
 import 'package:flutter_app/org/learn/common/global.dart';
 import 'package:flutter_app/org/learn/http/net_error.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ApiInterceptor extends InterceptorsWrapper {
   @override
@@ -52,20 +53,26 @@ class HttpRequest {
     if (e.type == DioErrorType.CONNECT_TIMEOUT) {
       // It occurs when url is opened timeout.
       print("连接超时");
+      Fluttertoast.showToast(msg: "连接超时");
     } else if (e.type == DioErrorType.SEND_TIMEOUT) {
       // It occurs when url is sent timeout.
       print("请求超时");
+      Fluttertoast.showToast(msg: "请求超时");
     } else if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
       //It occurs when receiving timeout
       print("响应超时");
+      Fluttertoast.showToast(msg: "响应超时");
     } else if (e.type == DioErrorType.RESPONSE) {
       // When the server response, but with a incorrect status, such as 404, 503...
       print("出现异常");
+      Fluttertoast.showToast(msg: "出现异常");
     } else if (e.type == DioErrorType.CANCEL) {
       // When the request is cancelled, dio will throw a error with this type.
       print("请求取消");
+      Fluttertoast.showToast(msg: "请求取消");
     } else if (e.error is SocketException) {
       print("连接网络异常");
+      Fluttertoast.showToast(msg: "连接网络异常");
     } else {
       //DEFAULT Default error type, Some other Error. In this case, you can read the DioError.error if it is not null.
       print('未知错误:$e');

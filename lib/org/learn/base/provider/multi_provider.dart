@@ -7,7 +7,9 @@ class MultiProvider2<T extends ChangeNotifier, P extends ChangeNotifier> extends
   final Widget Function(BuildContext context, T modelT, P modelP, Widget child) builder;
   final Widget child;
 
-  const MultiProvider2({Key key, @required this.model1, @required this.model2, @required this.builder, this.child})
+  final void Function(T modelT, P modelP) onModelInit;
+
+  const MultiProvider2({Key key, @required this.model1, @required this.model2, @required this.builder, this.child, this.onModelInit})
       : super(key: key);
 
   @override
@@ -25,6 +27,9 @@ class _MultiProvider2State<T extends ChangeNotifier, P extends ChangeNotifier> e
     super.initState();
     model1 = widget.model1;
     model2 = widget.model2;
+    if(widget.onModelInit != null){
+      widget.onModelInit(model1, model2);
+    }
   }
 
   @override
