@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/org/learn/base/bean/home_article_response.dart';
 import 'package:flutter_app/org/learn/base/bean/home_banner_response.dart';
 import 'package:flutter_app/org/learn/base/refresh_list_view_model.dart';
 import 'package:flutter_app/org/learn/http/api_service.dart';
@@ -18,10 +19,15 @@ class HomeBannerModel extends ChangeNotifier {
   }
 }
 
-class HomeArticleModel extends RefreshListViewModel {
+class HomeArticleModel extends RefreshListViewModel<ArticleDetailData> {
+
+  HomeArticleModel(){
+    startPage = 0;
+  }
+
   @override
-  Future<List> loadData() {
-    // TODO: implement loadData
-    return null;
+  Future<List<ArticleDetailData>> loadData() async{
+    var response = await HttpRequest.get(ApiService.HOME_ARTICLE.replaceAll(r"$page", page.toString()));
+    return response['datas'].map<ArticleDetailData>((item) => ArticleDetailData.fromJson(item)).toList();
   }
 }

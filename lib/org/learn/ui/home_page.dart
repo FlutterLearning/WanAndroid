@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/org/learn/base/bean/home_article_response.dart';
 import 'package:flutter_app/org/learn/base/provider/multi_provider.dart';
 import 'package:flutter_app/org/learn/model/home_model.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,8 @@ class HomeState extends State<StatefulWidget> {
       body: MultiProvider2<HomeBannerModel, HomeArticleModel>(
         model2: HomeArticleModel(),
         model1: HomeBannerModel(),
-        onModelInit: (bannerModel, articleModel) => {bannerModel.getBannerData()},
+        onModelInit: (bannerModel, articleModel) =>
+            {bannerModel.getBannerData(), articleModel.loading(isRefresh: true)},
         builder: (context, bannerModel, articleModel, child) {
           return SmartRefresher(
             controller: articleModel.refreshController,
@@ -42,19 +44,15 @@ class HomeState extends State<StatefulWidget> {
                     floating: false,
                     pinned: true,
                     snap: false,
-                    flexibleSpace: HomeBannerWidget(_appBarHeight)),
-                SliverPadding(
-                  padding: const EdgeInsets.all(10.0),
-                  sliver: SliverFixedExtentList(
-                    itemExtent: 50.0, //item高度或宽度，取决于滑动方向
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text('Item $index'),
-                        );
-                      },
-                      childCount: 30,
-                    ),
+                    flexibleSpace: HomeBannerWidget()),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return ListTile(
+                        title: ArticleListWidget(index),
+                      );
+                    },
+                    childCount: articleModel.length,
                   ),
                 ),
               ],
@@ -67,10 +65,6 @@ class HomeState extends State<StatefulWidget> {
 }
 
 class HomeBannerWidget extends StatefulWidget {
-  final double _appBarHeight;
-
-  const HomeBannerWidget(this._appBarHeight, {Key key}) : super(key: key);
-
   @override
   State<HomeBannerWidget> createState() {
     return HomeBannerState();
@@ -98,7 +92,7 @@ class HomeBannerState extends State<HomeBannerWidget> {
                   fit: BoxFit.cover,
                   imageUrl: bannerModel.list[index].imagePath,
                   placeholder: (context, url) => CircularProgressIndicator(
-                     backgroundColor: Colors.pink,
+                    backgroundColor: Colors.pink,
                   ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
@@ -115,5 +109,56 @@ class HomeBannerState extends State<HomeBannerWidget> {
         _currentPageIndex = index;
       }
     });
+  }
+}
+
+class ArticleListWidget extends StatefulWidget {
+  final int index;
+
+  const ArticleListWidget(this.index, {Key key}) : super(key: key);
+
+  @override
+  State<ArticleListWidget> createState() {
+    return ArticleListState();
+  }
+}
+
+class ArticleListState extends State<ArticleListWidget> {
+  int _currentPageIndex;
+  PageController _pageController = PageController(initialPage: 0);
+
+  @override
+  Widget build(BuildContext context) {
+    HomeArticleModel bannerModel = Provider.of<HomeArticleModel>(context);
+    ArticleDetailData detailData = bannerModel.list[widget.index];
+    return Container(
+      padding: EdgeInsets.fromLTRB(5, 5, 10, 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  detailData.title,
+                  style: TextStyle(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text("作者：${detailData.shareUser}"),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Align(
+              child: Icon(detailData.collect ? Icons.favorite : Icons.favorite_border),
+              alignment: Alignment.centerRight,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

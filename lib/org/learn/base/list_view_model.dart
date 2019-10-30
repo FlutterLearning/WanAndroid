@@ -38,11 +38,13 @@ abstract class ListViewModel<T> extends ViewModel {
     }
     try {
       List<T> result = await loadData();
-      onNewList(result);
+      onNewList(result?? List());
       if (_currentPage++ == _startPage) {
         _list.clear();
       }
-      _list.addAll(result);
+      if(result != null){
+        _list.addAll(result);
+      }
       onSuccess(_list);
       if (list.isEmpty) {
         setEmpty();
@@ -50,7 +52,7 @@ abstract class ListViewModel<T> extends ViewModel {
         setSuccess();
       }
     } catch (e) {
-      print("Http: ${e.toString()}");
+      print("ListViewModel: ${e.toString()}");
       if (_list.isEmpty) {
         setEmpty();
       } else {

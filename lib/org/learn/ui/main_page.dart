@@ -8,12 +8,13 @@ class MainPage extends StatefulWidget {
   }
 }
 
-class MainState extends State<StatefulWidget> {
+class MainState extends State<StatefulWidget> with AutomaticKeepAliveClientMixin{
   PageController _pageController = PageController(initialPage: 0);
   int _currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: PageView.builder(
         onPageChanged: _pageChange,
@@ -42,4 +43,7 @@ class MainState extends State<StatefulWidget> {
       }
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
