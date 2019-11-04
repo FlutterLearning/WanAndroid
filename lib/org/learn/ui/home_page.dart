@@ -16,9 +16,10 @@ class HomePage extends StatefulWidget {
 
 enum AppBarBehavior { normal, pinned, floating, snapping }
 
-class HomeState extends State<StatefulWidget> {
+class HomeState extends State<StatefulWidget> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     double _appBarHeight = MediaQuery.of(context).size.width * 5 / 11;
     return Scaffold(
       body: MultiProvider2<HomeBannerModel, HomeArticleModel>(
@@ -62,6 +63,9 @@ class HomeState extends State<StatefulWidget> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class HomeBannerWidget extends StatefulWidget {
