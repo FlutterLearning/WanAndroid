@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/org/learn/base/bean/home_article_response.dart';
 import 'package:flutter_app/org/learn/base/provider/multi_provider.dart';
 import 'package:flutter_app/org/learn/model/home_model.dart';
+import 'package:flutter_app/org/learn/ui/webview_page.dart';
+import 'package:flutter_app/org/learn/utils/route.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -135,33 +137,38 @@ class ArticleListState extends State<ArticleListWidget> {
   Widget build(BuildContext context) {
     HomeArticleModel bannerModel = Provider.of<HomeArticleModel>(context);
     ArticleDetailData detailData = bannerModel.list[widget.index];
-    return Container(
-      padding: EdgeInsets.fromLTRB(5, 5, 10, 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  detailData.title,
-                  style: TextStyle(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text("作者：${detailData.shareUser}"),
-              ],
+    return GestureDetector(
+      onTap: (){
+        RouteUtils.push(context, WebViewPage(detailData.title, detailData.link));
+      },
+      child: Container(
+        padding: EdgeInsets.fromLTRB(5, 5, 10, 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    detailData.title,
+                    style: TextStyle(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text("作者：${detailData.shareUser}"),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-            child: Align(
-              child: Icon(detailData.collect ? Icons.favorite : Icons.favorite_border),
-              alignment: Alignment.centerRight,
-            ),
-          )
-        ],
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: Align(
+                child: Icon(detailData.collect ? Icons.favorite : Icons.favorite_border),
+                alignment: Alignment.centerRight,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

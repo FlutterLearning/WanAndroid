@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/org/learn/ui/launcher_page.dart';
 import 'package:flutter_app/org/learn/ui/main_page.dart';
 
@@ -8,6 +9,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //状态栏透明
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     return MaterialApp(
       title: 'Wan Android',
       theme: ThemeData(

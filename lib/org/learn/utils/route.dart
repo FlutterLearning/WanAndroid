@@ -12,4 +12,8 @@ class RouteUtils {
       (route) => route == null,
     );
   }
+
+  static finish(BuildContext context) {
+    Navigator.pop(context);
+  }
 }
