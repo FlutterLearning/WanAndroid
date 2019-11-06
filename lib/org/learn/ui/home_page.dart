@@ -139,6 +139,7 @@ class ArticleListState extends State<ArticleListWidget> {
     ArticleDetailData detailData = bannerModel.list[widget.index];
     return GestureDetector(
       onTap: (){
+//        RouteUtils.push(context, WebViewPage(detailData.title, detailData.link));
         RouteUtils.push(context, WebViewPage(detailData.title, detailData.link));
       },
       child: Container(
@@ -156,7 +157,7 @@ class ArticleListState extends State<ArticleListWidget> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Text("作者：${detailData.shareUser}"),
+                  Text("作者：${detailData.shareUser.isEmpty? detailData.author: detailData.shareUser}"),
                 ],
               ),
             ),
