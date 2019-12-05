@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/org/learn/ui/home_page.dart';
-
+import 'package:flutter_app/org/learn/ui/plan_page.dart';
 class MainPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -8,7 +8,7 @@ class MainPage extends StatefulWidget {
   }
 }
 
-class MainState extends State<StatefulWidget> with AutomaticKeepAliveClientMixin{
+class MainState extends State<StatefulWidget> with AutomaticKeepAliveClientMixin {
   PageController _pageController = PageController(initialPage: 0);
   int _currentPageIndex = 0;
 
@@ -20,7 +20,14 @@ class MainState extends State<StatefulWidget> with AutomaticKeepAliveClientMixin
         onPageChanged: _pageChange,
         controller: _pageController,
         itemBuilder: (BuildContext context, int index) {
-          return index == 0 ? HomePage() : new Text("我是第二页");
+          switch (index) {
+            case 0:
+              return HomePage();
+            case 1:
+              return PlanPage();
+            default:
+              return Text("我是第二页");
+          }
         },
         itemCount: 2,
       ),
